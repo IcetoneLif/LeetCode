@@ -1,0 +1,62 @@
+[C#]
+
+public class Solution {
+    public int[] TwoSum(int[] nums, int target) {
+        int len = nums.Length;
+        for (int i = 0; i < len; i++)
+        {
+            for (int j = len - 1; j > 0; j--)
+            {
+                if (j > i)
+                {
+                    if ((nums[i] + nums[j]) == target)
+                    {
+                        return new int[2] { i, j };
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+}
+
+public class Solution {
+    public int[] TwoSum(int[] nums, int target) {
+                int len = nums.Length;
+        Hashtable hb = new Hashtable();
+        for (int i = 0; i < len; i++)
+        {
+            int v1 = nums[i];
+            int v2 = target - v1;
+            if (hb.ContainsKey(v2))
+            {
+                return new int[2] { (int)hb[v2], i };
+            }
+            if (hb.ContainsKey(v1) == false)
+                hb.Add(v1, i);
+        }
+
+        return null;
+    }
+}
+
+public class Solution {
+    public int[] TwoSum(int[] nums, int target) {
+        int len = nums.Length;
+        List<int> l = new List<int>();
+        for (int i = 0; i < len; i++)
+        {
+            int cur = nums[i];
+            int v = target - cur;
+            if (l.Contains(v))
+            {
+                return new int[2] { l.FindIndex(item => (item == v)), i };
+            }
+            l.Add(cur);
+        }
+
+        return null;
+    }
+}
+
