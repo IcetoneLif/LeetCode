@@ -1,0 +1,93 @@
+C++
+
+#pragma region  方法一
+    //用erase + remove的方式剔除相应值
+    //优点：内存占用小
+    //缺点：引用多的头文件：#include <algorithm>
+    int left = 0, right = 0;
+    string::iterator it, itFirst;
+    for (it = S.begin(); it != S.end(); it++)
+    {
+        if (*it == '(')
+        {
+            if (left == 0)
+                itFirst = it;
+
+            left++;
+        }
+        else if (*it == ')')
+        {
+            right++;
+            if (right == left)
+            {
+                *itFirst = NULL;
+                *it = NULL;
+                right = left = 0;
+            }
+
+        }
+    }
+    S.erase(remove(S.begin(), S.end(), NULL), S.end());
+    return S;
+#pragma endregion
+
+#pragma region 方法二
+    //用erase函数剔除相应值
+    //优点：内存占用小，不用引用多的头文件
+    //缺点：多循环一遍
+    int left = 0, right = 0;
+    int len = S.size();
+    for (int i = 0; i < len; i++)
+    {
+        char cur = S[i];
+        if (cur == '(')
+        {
+            left++;
+        }
+        else if (cur == ')')
+        {
+            right++;
+            if (right == left)
+            {
+                //要删的左括号和右括号
+                S[i - (left + right - 1)] = S[i] = NULL;
+                right = left = 0;
+            }
+        }
+    }
+    string::iterator it;
+    for (it = S.begin(); it != S.end(); )
+    {
+        if (*it == NULL)
+            S.erase(it);
+        else
+            it++;
+    }
+    return S;
+#pragma endregion
+
+#pragma region 方法三
+    //用新数组保存需要的值
+    //优点：只循环一遍
+    //缺点：需要多余内存来保存结果
+    int left = 1, right = 0;
+    string result;
+    for (int i = 1; i < S.size(); i++)
+    {
+        char cur = S[i];
+        if (cur == '(')
+            left++;
+        else if (cur == ')')
+            right++;
+
+        if (right != left)
+            result.push_back(cur);
+        else
+        {
+            i++;
+            left = 1;
+            right = 0;
+        }
+    }
+    return result;
+#pragma endregion
